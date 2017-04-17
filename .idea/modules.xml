@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/VirtualGeocaching.iml" filepath="$PROJECT_DIR$/VirtualGeocaching.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-vgc.iml" filepath="$PROJECT_DIR$/android-vgc.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
