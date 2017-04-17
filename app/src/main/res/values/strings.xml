@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">VirtualGeocaching</string>
+    <string name="signed_out">signed out</string>
+    <string name="hint_email">email address</string>
+    <string name="hint_password">password</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+    <string name="authentication">Authentication</string>
+    <string name="loading">loading</string>
+
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="firebase_user_management">Firebase User Management</string>
+
+    <string name="google_status_fmt">Google User: %s</string>
+    <string name="google_title_text">Google Sign In</string>
+
+    <string name="facebook_status_fmt">Facebook User: %s</string>
+    <string name="facebook_title_text">Facebook Login</string>
+
+    <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
+    <string name="emailpassword_title_text">Email and Password</string>
+
+    <string name="twitter_status_fmt">Twitter User: %s</string>
+    <string name="twitter_title_text">Twitter Login</string>
+
+    <string name="firebaseui_status_fmt">Firebase User: %s</string>
+    <string name="firebaseui_title_text">FirebaseUI Auth</string>
+
+    <string name="id_fmt">User ID: %s</string>
+    <string name="email_fmt">Email: %s</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="desc_firebase_lockup">Login logo and name</string>
+    <string name="sign_out">SIGN OUT</string>
+    <string name="verify_email">VERIFY EMAIL</string>
 </resources>
