@@ -1,6 +1,7 @@
 package android.nik.virtualgeocaching;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.verify_email_button).setOnClickListener(this);
+        findViewById(R.id.explore_button).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -78,13 +80,17 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             findViewById(R.id.signed_in_buttons).setVisibility(View.VISIBLE);
 
             findViewById(R.id.verify_email_button).setEnabled(!user.isEmailVerified());
-        } else {
+            if(user.isEmailVerified())
+                findViewById(R.id.explore_button).setVisibility(View.VISIBLE);
+            }
+         else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
 
             findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
             findViewById(R.id.signed_in_buttons).setVisibility(View.GONE);
+            findViewById(R.id.explore_button).setVisibility(View.GONE);
         }
     }
 
@@ -225,7 +231,11 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             signOut();
         } else if (i == R.id.verify_email_button) {
             sendEmailVerification();
+        } else if (i == R.id.explore_button){
+            Intent explorerActivity = new Intent(LogInActivity.this, ExplorerActivity.class);
+            startActivity(explorerActivity);
         }
+
     }
 
     public void showProgressDialog() {

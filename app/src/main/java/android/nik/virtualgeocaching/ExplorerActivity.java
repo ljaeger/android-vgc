@@ -1,8 +1,12 @@
 package android.nik.virtualgeocaching;
 
-/**
- * Created by Laszlo on 3/24/2017.
- */
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-public class ExplorerActivity {
+public class ExplorerActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 }

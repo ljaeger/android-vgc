@@ -32,4 +32,5 @@
     <string name="desc_firebase_lockup">Login logo and name</string>
     <string name="sign_out">SIGN OUT</string>
     <string name="verify_email">VERIFY EMAIL</string>
+    <string name="explore_button">EXPLORE</string>
 </resources>
