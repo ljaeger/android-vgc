@@ -5,6 +5,14 @@ package android.nik.virtualgeocaching;
  */
 
 public class Adventurer {
+    public String getName() {
+        return name;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
     private String name;
     private String userId;  // Relation to Firebase
 

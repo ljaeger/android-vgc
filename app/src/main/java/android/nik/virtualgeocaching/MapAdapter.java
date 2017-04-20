@@ -15,6 +15,7 @@ import android.widget.TextView;
 public class MapAdapter extends BaseAdapter {
 
     private Map map;
+    protected ButtonClickListener buttonClickListener;
 
     public MapAdapter(Map map) {
         this.map = map;
@@ -38,7 +39,7 @@ public class MapAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Chest chest = map.getChestList().get(position);
+        final Chest chest = map.getChestList().get(position);
 
         if(convertView == null) {
             convertView = View.inflate(parent.getContext(), R.layout.listitem_chest, null);
@@ -54,17 +55,27 @@ public class MapAdapter extends BaseAdapter {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExplorerState.GetExplorerStateInstance().setButtonTouched(true);
+                if(buttonClickListener != null)
+                    buttonClickListener.onButtonClicked(ExplorerButtonType.EDIT,chest);
             }
         });
-
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExplorerState.GetExplorerStateInstance().setButtonTouched(true);
+                if(buttonClickListener != null)
+                    buttonClickListener.onButtonClicked(ExplorerButtonType.VIEW,chest);
             }
         });
 
         return convertView;
     }
+    public void setButtonClickListener(ButtonClickListener buttonClickListener) {
+        this.buttonClickListener = buttonClickListener;
+
+    }
+
+    public interface ButtonClickListener{
+        void onButtonClicked(ExplorerButtonType buttonType, Chest chest);
+    }
+
 }
