@@ -238,6 +238,12 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAuth.signOut();
+    }
+
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
