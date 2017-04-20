@@ -42,15 +42,12 @@ public class ExplorerActivity extends AppCompatActivity {
         MapAdapter mapAdapter = new MapAdapter(map);
         chestList.setAdapter(mapAdapter);
 
-        chestList.setOnItemClickListener(new ListView.OnItemClickListener() {
+        mapAdapter.setButtonClickListener(new MapAdapter.ButtonClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (explorerState.isButtonTouched()) {
-                    Intent chestActivity = new Intent(ExplorerActivity.this, ChestEditActivity.class);
-                    startActivity(chestActivity);
-
-                    explorerState.setButtonTouched(false);
-                }
+            public void onButtonClicked(ExplorerButtonType buttonType, Chest chest) {
+                Intent chestActivity = new Intent(ExplorerActivity.this, ChestEditActivity.class);
+                startActivity(chestActivity);
+                //TODO different layouts for edit and view and open a real chest
             }
         });
     }

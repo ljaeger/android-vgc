@@ -32,3 +32,4 @@ public class Map {
         ChestList.add(new Chest(new LatLng(47.532621d, 19.030906d), 400, false, new Adventurer("Eszter", "hallgato126"), true));
     }
 }
+//TODO replace DEBUG MAP class
