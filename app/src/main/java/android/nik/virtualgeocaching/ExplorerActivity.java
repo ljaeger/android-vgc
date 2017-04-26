@@ -13,20 +13,7 @@ import android.widget.ListView;
  */
 
 public class ExplorerActivity extends AppCompatActivity {
-
-    ExplorerState explorerState;
-
-    public boolean isButtonTouched() {
-        return buttonTouched;
-    }
-
-    public void setButtonTouched(boolean buttonTouched) {
-        this.buttonTouched = buttonTouched;
-    }
-
-    private boolean buttonTouched;
-
-
+    
     Map map;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +22,6 @@ public class ExplorerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_explorer);
 
         map = new Map();
-        explorerState = ExplorerState.GetExplorerStateInstance();
 
 
         ListView chestList = (ListView)findViewById(R.id.container_list);
