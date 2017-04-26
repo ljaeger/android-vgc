@@ -13,9 +13,12 @@ public class Chest {
     private boolean hidden;
     private Adventurer adventurer;
     private boolean opentoEdit;
+    //chestID must not be changed
+    private final String chestID;
 
-    public Chest(LatLng position, float radius, boolean hidden, Adventurer adventurer, boolean opentoEdit) {
+    public Chest(LatLng position, String chestID, float radius, boolean hidden, Adventurer adventurer, boolean opentoEdit) {
         this.setPosition(position);
+        this.chestID = chestID;
         this.setRadius(radius);
         this.setHidden(hidden);
         this.setAdventurer(adventurer);
@@ -24,6 +27,10 @@ public class Chest {
 
     public LatLng getPosition() {
         return position;
+    }
+
+    public String getChestID() {
+        return chestID;
     }
 
     public void setPosition(LatLng position) {

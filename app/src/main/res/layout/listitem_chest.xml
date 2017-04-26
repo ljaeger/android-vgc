@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/chestID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:text="@string/chestid"
+        android:paddingStart="10dp"
+        android:layout_gravity="start"
+        android:paddingLeft="10dp"/>
+
+</LinearLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -11,7 +30,7 @@
         android:layout_weight="10"
         android:text="defaulttext"
         android:paddingStart="10dp"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         android:paddingLeft="10dp"/>
 
     <android.support.v7.widget.AppCompatButton
@@ -19,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:focusable="false"
         android:paddingRight="10dp" android:background="@mipmap/ic_launcher"
         />
@@ -28,10 +47,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:paddingEnd="10dp"
         android:focusable="false"
         android:paddingRight="10dp" android:background="@mipmap/ic_launcher"
         />
 
+</LinearLayout>
 </LinearLayout>

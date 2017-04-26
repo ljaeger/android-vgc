@@ -47,10 +47,13 @@ public class MapAdapter extends BaseAdapter {
         }
 
         TextView chestPositionTextView = (TextView) convertView.findViewById(R.id.chestPosition);
+        TextView chestIDTextView = (TextView)convertView.findViewById(R.id.chestID);
+
         Button editButton = (Button) convertView.findViewById(R.id.editButton);
         Button viewButton = (Button) convertView.findViewById(R.id.viewButton);
 
         chestPositionTextView.setText(chest.getPosition().toString());
+        chestIDTextView.setText(chest.getChestID());
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
