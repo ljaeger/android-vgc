@@ -1,4 +1,4 @@
-package android.nik.virtualgeocaching;
+package android.nik.virtualgeocaching.support;
 
 public enum ExplorerButtonType{
     VIEW,

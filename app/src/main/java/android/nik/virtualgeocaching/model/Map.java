@@ -1,14 +1,12 @@
-package android.nik.virtualgeocaching;
+package android.nik.virtualgeocaching.model;
+
+import android.nik.virtualgeocaching.model.Adventurer;
+import android.nik.virtualgeocaching.model.Chest;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * Created by Zsu on 2017. 04. 19..

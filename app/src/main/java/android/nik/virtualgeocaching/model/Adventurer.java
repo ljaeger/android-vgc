@@ -1,4 +1,4 @@
-package android.nik.virtualgeocaching;
+package android.nik.virtualgeocaching.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

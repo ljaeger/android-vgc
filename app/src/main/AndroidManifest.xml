@@ -22,18 +22,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <uses-library android:name="com.google.android.maps" />
-        <activity android:name=".LogInActivity">
+        <activity android:name=".activities.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ExplorerActivity" />
+        <activity android:name=".activities.ExplorerActivity" />
 
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDGSQt2mxvypZ4T1NL4EgzUwUHlldoYn9Q" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -47,10 +45,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_map" />
-        <activity android:name=".ChestEditActivity" />
-        <activity android:name=".CreateChestActivity" />
+            android:name=".activities.MapActivity"
+            android:label="@string/title_activity_map">
+
+        </activity>
+        <activity android:name=".activities.ChestEditActivity" />
+        <activity android:name=".activities.CreateChestActivity" />
     </application>
 
 </manifest>
