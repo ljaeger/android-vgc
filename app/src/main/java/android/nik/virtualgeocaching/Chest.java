@@ -1,12 +1,15 @@
 package android.nik.virtualgeocaching;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by Zsu on 2017. 04. 19..
  */
 
-public class Chest {
+public class Chest implements Parcelable {
 
     private LatLng position;
     private float radius;   // Radius
@@ -68,4 +71,40 @@ public class Chest {
     public void setOpentoEdit(boolean opentoEdit) {
         this.opentoEdit = opentoEdit;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.position, flags);
+        dest.writeFloat(this.radius);
+        dest.writeByte(this.hidden ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(this.adventurer, flags);
+        dest.writeByte(this.opentoEdit ? (byte) 1 : (byte) 0);
+        dest.writeString(this.chestID);
+    }
+
+    protected Chest(Parcel in) {
+        this.position = in.readParcelable(LatLng.class.getClassLoader());
+        this.radius = in.readFloat();
+        this.hidden = in.readByte() != 0;
+        this.adventurer = in.readParcelable(Adventurer.class.getClassLoader());
+        this.opentoEdit = in.readByte() != 0;
+        this.chestID = in.readString();
+    }
+
+    public static final Parcelable.Creator<Chest> CREATOR = new Parcelable.Creator<Chest>() {
+        @Override
+        public Chest createFromParcel(Parcel source) {
+            return new Chest(source);
+        }
+
+        @Override
+        public Chest[] newArray(int size) {
+            return new Chest[size];
+        }
+    };
 }

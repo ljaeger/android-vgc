@@ -27,5 +27,6 @@
         android:layout_alignParentEnd="true"
         android:padding="2dp"
         android:background="@mipmap/ic_launcher_round"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:focusable="false"/>
 </RelativeLayout>

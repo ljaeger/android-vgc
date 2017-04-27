@@ -1,10 +1,14 @@
 package android.nik.virtualgeocaching;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -18,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -27,8 +32,11 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     private TextView mStatusTextView;
     private TextView mDetailTextView;
+    private TextView displayNameText;
     private EditText mEmailField;
     private EditText mPasswordField;
+
+    private String displayName;
 
     private ProgressDialog mProgressDialog;
 
@@ -42,12 +50,14 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         mDetailTextView = (TextView) findViewById(R.id.detail);
         mEmailField = (EditText) findViewById(R.id.field_email);
         mPasswordField = (EditText) findViewById(R.id.field_password);
+        displayNameText = (TextView) findViewById(R.id.displayNameText);
         //BUTTONS
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.verify_email_button).setOnClickListener(this);
         findViewById(R.id.explore_button).setOnClickListener(this);
+        findViewById(R.id.displayName_button).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -82,6 +92,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             findViewById(R.id.verify_email_button).setEnabled(!user.isEmailVerified());
             if(user.isEmailVerified())
                 findViewById(R.id.explore_button).setVisibility(View.VISIBLE);
+                findViewById(R.id.displayName_button).setVisibility(View.VISIBLE);
             }
          else {
             mStatusTextView.setText(R.string.signed_out);
@@ -91,6 +102,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
             findViewById(R.id.signed_in_buttons).setVisibility(View.GONE);
             findViewById(R.id.explore_button).setVisibility(View.GONE);
+            findViewById(R.id.displayName_button).setVisibility(View.GONE);
         }
     }
 
@@ -234,8 +246,57 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         } else if (i == R.id.explore_button){
             Intent explorerActivity = new Intent(LogInActivity.this, ExplorerActivity.class);
             startActivity(explorerActivity);
+        }else if (i == R.id.displayName_button){
+            setDisplayName();
         }
 
+
+    }
+
+    private void setDisplayName() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                displayName = input.getText().toString();
+                //FIREBASE PART
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(displayName)
+                        .build();
+
+                user.updateProfile(profileUpdates)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    displayNameText.setText(displayName);
+                                    Log.d(TAG, "User profile updated.");
+                                    Toast.makeText(LogInActivity.this, getString(R.string.displayNameSetTo)+ displayName,
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+                        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override

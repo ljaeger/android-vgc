@@ -35,4 +35,7 @@
     <string name="explore_button">EXPLORE</string>
     <string name="title_activity_map">Map</string>
     <string name="chestid">chestID</string>
+    <string name="set_displayname">SET DISPLAYNAME</string>
+    <string name="displayNameSetTo">Displayname set to:</string>
+    <string name="title_activity_test_maps">Map</string>
 </resources>
