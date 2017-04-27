@@ -1,7 +1,9 @@
-package android.nik.virtualgeocaching;
+package android.nik.virtualgeocaching.adapters;
 
-import android.app.Activity;
-import android.view.LayoutInflater;
+import android.nik.virtualgeocaching.R;
+import android.nik.virtualgeocaching.model.Chest;
+import android.nik.virtualgeocaching.model.Map;
+import android.nik.virtualgeocaching.support.ExplorerButtonType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;

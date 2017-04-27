@@ -1,7 +1,8 @@
-package android.nik.virtualgeocaching;
+package android.nik.virtualgeocaching.activities;
 
 import android.content.pm.PackageManager;
-import android.os.PersistableBundle;
+import android.nik.virtualgeocaching.model.Chest;
+import android.nik.virtualgeocaching.R;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;

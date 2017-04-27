@@ -1,5 +1,6 @@
-package android.nik.virtualgeocaching;
+package android.nik.virtualgeocaching.activities;
 
+import android.nik.virtualgeocaching.R;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
