@@ -167,10 +167,20 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             Toast.makeText(LogInActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
+                        else{
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            if(user.getDisplayName() != null){
+                                displayName = user.getDisplayName();
+                                displayNameText.setText(displayName);
+                            }
+
+                        }
+
 
                         if (!task.isSuccessful()) {
                             mStatusTextView.setText(R.string.auth_failed);
                         }
+
                         hideProgressDialog();
                     }
                 });
