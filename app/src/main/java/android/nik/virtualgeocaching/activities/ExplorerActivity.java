@@ -73,17 +73,15 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100)
-            if(resultCode == 1){
+            if(resultCode == RESULT_OK){
                 Map returnedMap = (Map) data.getParcelableExtra("resultMap");
                 this.map = returnedMap;
                 reloadChestList();
-                //explorerChestList.invalidateViews();
-                explorerChestList.refreshDrawableState();
-                //mapAdapter.notifyDataSetChanged();
             }
     }
 
     private void reloadChestList() {
-
+        mapAdapter.setMap(map);
+        mapAdapter.notifyDataSetChanged();
     }
 }
