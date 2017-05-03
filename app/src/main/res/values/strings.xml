@@ -38,4 +38,8 @@
     <string name="set_displayname">SET DISPLAYNAME</string>
     <string name="displayNameSetTo">Displayname set to:</string>
     <string name="title_activity_test_maps">Map</string>
+    <string name="create_chest">CREATE CHEST</string>
+    <string name="access_radius">access radius</string>
+    <string name="listed">LISTED</string>
+    <string name="public_edit">PUBLIC EDIT</string>
 </resources>

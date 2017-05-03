@@ -29,7 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ExplorerActivity" />
+        <activity android:name=".activities.ExplorerActivity"
+            android:launchMode="singleTask"/>
 
 
         <!--
@@ -50,7 +51,8 @@
 
         </activity>
         <activity android:name=".activities.ChestEditActivity" />
-        <activity android:name=".activities.CreateChestActivity" />
+        <activity android:name=".activities.CreateChestActivity"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

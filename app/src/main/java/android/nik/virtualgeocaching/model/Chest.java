@@ -14,17 +14,17 @@ public class Chest implements Parcelable {
     private LatLng position;
     private float radius;   // Radius
     private boolean hidden;
-    private Adventurer adventurer;
     private boolean opentoEdit;
     //chestID must not be changed
     private final String chestID;
+    private String adventurerID;
 
-    public Chest(LatLng position, String chestID, float radius, boolean hidden, Adventurer adventurer, boolean opentoEdit) {
+    public Chest(LatLng position, String chestID, float radius, boolean hidden, String adventurerID , boolean opentoEdit) {
         this.setPosition(position);
         this.chestID = chestID;
         this.setRadius(radius);
         this.setHidden(hidden);
-        this.setAdventurer(adventurer);
+        this.setAdventurerID(adventurerID);
         this.setOpentoEdit(opentoEdit);
     }
 
@@ -56,20 +56,20 @@ public class Chest implements Parcelable {
         this.hidden = hidden;
     }
 
-    public Adventurer getAdventurer() {
-        return adventurer;
-    }
-
-    public void setAdventurer(Adventurer adventurer) {
-        this.adventurer = adventurer;
-    }
-
     public boolean isOpentoEdit() {
         return opentoEdit;
     }
 
     public void setOpentoEdit(boolean opentoEdit) {
         this.opentoEdit = opentoEdit;
+    }
+
+    public String getAdventurerID() {
+        return adventurerID;
+    }
+
+    public void setAdventurerID(String adventurerID) {
+        this.adventurerID = adventurerID;
     }
 
     @Override
@@ -82,21 +82,21 @@ public class Chest implements Parcelable {
         dest.writeParcelable(this.position, flags);
         dest.writeFloat(this.radius);
         dest.writeByte(this.hidden ? (byte) 1 : (byte) 0);
-        dest.writeParcelable(this.adventurer, flags);
         dest.writeByte(this.opentoEdit ? (byte) 1 : (byte) 0);
         dest.writeString(this.chestID);
+        dest.writeString(this.adventurerID);
     }
 
     protected Chest(Parcel in) {
         this.position = in.readParcelable(LatLng.class.getClassLoader());
         this.radius = in.readFloat();
         this.hidden = in.readByte() != 0;
-        this.adventurer = in.readParcelable(Adventurer.class.getClassLoader());
         this.opentoEdit = in.readByte() != 0;
         this.chestID = in.readString();
+        this.adventurerID = in.readString();
     }
 
-    public static final Parcelable.Creator<Chest> CREATOR = new Parcelable.Creator<Chest>() {
+    public static final Creator<Chest> CREATOR = new Creator<Chest>() {
         @Override
         public Chest createFromParcel(Parcel source) {
             return new Chest(source);
