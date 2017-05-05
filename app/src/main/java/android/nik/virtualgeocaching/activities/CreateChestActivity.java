@@ -71,21 +71,15 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
         findViewById(R.id.createChestButton).setOnClickListener(this);
 
         //GPS
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},200);
+        }
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        //Criteria criteria = new Criteria();
-        //provider = locationManager.getBestProvider(criteria, false);
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
 
         if (provider != null && !provider.equalsIgnoreCase("")) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
+
             Location location = locationManager.getLastKnownLocation(provider);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 15000,1,this);
 
@@ -139,11 +133,7 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
     private boolean inputValidation() {
         String chestIDText = chestIDField.getText().toString();
         int radiusValue = Integer.valueOf(radiusField.getText().toString());
-        if(chestIDText.equalsIgnoreCase("") || radiusValue == 0){
-            return false;
-        }
-        else
-            return true;
+        return !(chestIDText.equalsIgnoreCase("") || radiusValue == 0);
     }
 
     private LatLng getLocation()
