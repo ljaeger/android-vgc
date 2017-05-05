@@ -115,6 +115,7 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
                     resultIntent.putExtra("resultMap", map);
                     CreateChestActivity.this.setResult(RESULT_OK, resultIntent);
                     CreateChestActivity.this.finishActivity(100);
+                    super.onBackPressed();
                     return;
                 }
                 else
