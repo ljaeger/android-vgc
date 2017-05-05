@@ -49,7 +49,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mMap = googleMap;
 
         LatLng chestlatlong = chest.getPosition();
-        mMap.addMarker(new MarkerOptions().position(chestlatlong).title(chest.getChestID()).snippet(chest.getAdventurer().getName()).draggable(false));
+        mMap.addMarker(new MarkerOptions().position(chestlatlong).title(chest.getChestID()).snippet(chest.getAdventurerID()).draggable(false));
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(chestlatlong)
                 .zoom(15)

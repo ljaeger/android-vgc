@@ -17,7 +17,7 @@ public class Adventurer implements Parcelable {
     }
 
     private String name;
-    private String userId;  // Relation to Firebase
+    private final String userId;  // Relation to Firebase
 
     public Adventurer(String name, String userId) {
         this.name = name;

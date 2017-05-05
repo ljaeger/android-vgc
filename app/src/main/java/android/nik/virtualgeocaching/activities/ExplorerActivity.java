@@ -20,18 +20,24 @@ import android.widget.ListView;
 public class ExplorerActivity extends AppCompatActivity implements View.OnClickListener {
 
     Map map;
+    ListView explorerChestList;
+    MapAdapter mapAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explorer);
+        //BUTTONS
+        findViewById(R.id.adder_button).setOnClickListener(this);
 
         map = new Map();
 
 
         final ListView chestList = (ListView)findViewById(R.id.container_list);
-        MapAdapter mapAdapter = new MapAdapter(map);
-        chestList.setAdapter(mapAdapter);
+        this.explorerChestList = chestList;
+        mapAdapter = new MapAdapter(map);
+        explorerChestList.setAdapter(mapAdapter);
 
         mapAdapter.setButtonClickListener(new MapAdapter.ButtonClickListener() {
             @Override
@@ -41,7 +47,7 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
                 //TODO different layouts for edit and view and open a real chest
             }
         });
-        chestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        explorerChestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Chest chest = map.getChestList().get(position);
@@ -57,7 +63,25 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
         int i = v.getId();
         if(i == R.id.adder_button){
             Intent createChestActivity = new Intent(ExplorerActivity.this, CreateChestActivity.class);
-            startActivity(createChestActivity);
+            createChestActivity.putExtra("map",map);
+            //startActivity(createChestActivity);
+            startActivityForResult(createChestActivity, 100);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100)
+            if(resultCode == RESULT_OK){
+                Map returnedMap = (Map) data.getParcelableExtra("resultMap");
+                this.map = returnedMap;
+                reloadChestList();
+            }
+    }
+
+    private void reloadChestList() {
+        mapAdapter.setMap(map);
+        mapAdapter.notifyDataSetChanged();
     }
 }

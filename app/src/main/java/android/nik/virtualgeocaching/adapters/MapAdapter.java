@@ -23,6 +23,10 @@ public class MapAdapter extends BaseAdapter {
         this.map = map;
     }
 
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
     @Override
     public int getCount() {
         return map.getChestList().size();
