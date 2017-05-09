@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * Created by Laszlo on 3/24/2017.
  */
@@ -22,12 +25,15 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
     Map map;
     ListView explorerChestList;
     MapAdapter mapAdapter;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explorer);
+        //FIREBASE
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         //BUTTONS
         findViewById(R.id.adder_button).setOnClickListener(this);
 
@@ -76,6 +82,7 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
             if(resultCode == RESULT_OK){
                 Map returnedMap = (Map) data.getParcelableExtra("resultMap");
                 this.map = returnedMap;
+
                 reloadChestList();
             }
     }

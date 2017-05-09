@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.nik.virtualgeocaching.R;
 import android.nik.virtualgeocaching.model.Chest;
 import android.nik.virtualgeocaching.model.Map;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -35,6 +42,7 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
     String provider;
     double longitude;
     double latitude;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +50,10 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
         Map explorerMap = (Map) getIntent().getParcelableExtra("map");
         this.map = explorerMap;
         setContentView(R.layout.activity_create_chest);
+        //FIREBASE DATABASE
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        //mDatabase.child("teszt").setValue("tesztlevel");
         //VIEWS
         chestIDField = (EditText) findViewById(R.id.chestIDText);
         radiusField = (EditText) findViewById(R.id.radiusText);
@@ -97,14 +109,18 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
             if (inputValidation()){
                 String chestIDString = chestIDField.getText().toString();
                 if(!isDuplicateChestID(chestIDString)){
+                    String userName = getUserName();
                     Chest newChest = new Chest(
                             getLocation(),
                             chestIDString,
                             (float) Integer.valueOf(radiusField.getText().toString()),
                             publicViewSwitch.isChecked(),
-                            "tesztadventurerID",
+                            //"tesztadventurerID",
+                            userName,
                             publicEditSwitch.isChecked());
                     map.addChest(newChest);
+                    mDatabase.child("chests").child(newChest.getChestID()).setValue(newChest);
+
                     Intent resultIntent = this.getIntent();
                     resultIntent.putExtra("resultMap", map);
                     CreateChestActivity.this.setResult(RESULT_OK, resultIntent);
@@ -118,6 +134,17 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
             else
                 Toast.makeText(CreateChestActivity.this, "Every field must be filled!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private String getUserName() {
+        String userName;
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser =  firebaseAuth.getCurrentUser();
+        userName = firebaseUser.getDisplayName();
+        if (userName == null || userName.isEmpty())
+            return getString(R.string.invalid_username);
+        else
+            return userName;
     }
 
     private boolean isDuplicateChestID(String chestID) {

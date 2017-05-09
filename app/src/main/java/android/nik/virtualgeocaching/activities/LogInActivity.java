@@ -90,9 +90,13 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             findViewById(R.id.signed_in_buttons).setVisibility(View.VISIBLE);
 
             findViewById(R.id.verify_email_button).setEnabled(!user.isEmailVerified());
-            if(user.isEmailVerified())
+            if(user.isEmailVerified()) {
                 findViewById(R.id.explore_button).setVisibility(View.VISIBLE);
-                findViewById(R.id.displayName_button).setVisibility(View.VISIBLE);
+                if (user.getDisplayName() == null || user.getDisplayName().isEmpty())
+                    findViewById(R.id.displayName_button).setVisibility(View.VISIBLE);
+                else
+                    findViewById(R.id.displayName_button).setVisibility(View.GONE);
+            }
             }
          else {
             mStatusTextView.setText(R.string.signed_out);
@@ -171,7 +175,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if(user.getDisplayName() != null){
                                 displayName = user.getDisplayName();
-                                displayNameText.setText(displayName);
+                                displayNameText.setText("Displayname: "+displayName);
                             }
 
                         }
@@ -254,8 +258,12 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         } else if (i == R.id.verify_email_button) {
             sendEmailVerification();
         } else if (i == R.id.explore_button){
-            Intent explorerActivity = new Intent(LogInActivity.this, ExplorerActivity.class);
-            startActivity(explorerActivity);
+            if(!(mAuth.getCurrentUser().getDisplayName() == null || mAuth.getCurrentUser().getDisplayName().isEmpty())) {
+                Intent explorerActivity = new Intent(LogInActivity.this, ExplorerActivity.class);
+                startActivity(explorerActivity);
+            }
+            else
+                Toast.makeText(LogInActivity.this, R.string.setDisplayNameReminder, Toast.LENGTH_SHORT).show();
         }else if (i == R.id.displayName_button){
             setDisplayName();
         }
