@@ -20,16 +20,20 @@ public class Map implements Parcelable {
         return ChestList;
     }
 
+    public void setChestList(List<Chest> chestList) {
+        ChestList = chestList;
+    }
+
     private List<Chest> ChestList;
 
 
     public Map() {
         ChestList = new ArrayList<Chest>();
 
-        ChestList.add(new Chest(new LatLng(47.533353d, 19.034886d),"PeterBox01", 400, false, "Péter", true));
-        ChestList.add(new Chest(new LatLng(47.532179d, 19.037279d),"AttilaBox03", 400, false, "Attila", true));
-        ChestList.add(new Chest(new LatLng(47.535859d, 19.033138d),"LillaBox022", 400, false, "Lilla", true));
-        ChestList.add(new Chest(new LatLng(47.532621d, 19.030906d), "EszterBox017", 400, false, "Eszter", true));
+        //ChestList.add(new Chest(new ModelLatLng(47.533353d, 19.034886d),"PeterBox01", 400, false, "Péter", true));
+        //ChestList.add(new Chest(new ModelLatLng(47.532179d, 19.037279d),"AttilaBox03", 400, false, "Attila", true));
+        //ChestList.add(new Chest(new ModelLatLng(47.535859d, 19.033138d),"LillaBox022", 400, false, "Lilla", true));
+        //ChestList.add(new Chest(new ModelLatLng(47.532621d, 19.030906d), "EszterBox017", 400, false, "Eszter", true));
     }
 
     public void addChest(Chest chest){

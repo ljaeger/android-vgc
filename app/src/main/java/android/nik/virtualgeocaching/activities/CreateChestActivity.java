@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.nik.virtualgeocaching.R;
 import android.nik.virtualgeocaching.model.Chest;
 import android.nik.virtualgeocaching.model.Map;
+import android.nik.virtualgeocaching.model.ModelLatLng;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -111,7 +112,8 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
                 if(!isDuplicateChestID(chestIDString)){
                     String userName = getUserName();
                     Chest newChest = new Chest(
-                            getLocation(),
+                            //getLocation(),
+                            new ModelLatLng(getLocation().latitude,getLocation().longitude),
                             chestIDString,
                             (float) Integer.valueOf(radiusField.getText().toString()),
                             publicViewSwitch.isChecked(),
@@ -159,6 +161,8 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
 
     private boolean inputValidation() {
         String chestIDText = chestIDField.getText().toString();
+        if(radiusField.getText().toString().isEmpty())
+            return false;
         int radiusValue = Integer.valueOf(radiusField.getText().toString());
         return !(chestIDText.equalsIgnoreCase("") || radiusValue == 0);
     }
