@@ -13,6 +13,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Laszlo on 3/24/2017.
  */
@@ -22,16 +32,37 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
     Map map;
     ListView explorerChestList;
     MapAdapter mapAdapter;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explorer);
+        map = new Map();
+        //FIREBASE
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("chests");
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            List<Chest> fChestList = new ArrayList<>();
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+            fChestList.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                    Chest chest  = postSnapshot.getValue(Chest.class);
+                    fChestList.add(chest);
+                }
+                map.setChestList(fChestList);
+                reloadChestList();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         //BUTTONS
         findViewById(R.id.adder_button).setOnClickListener(this);
-
-        map = new Map();
 
 
         final ListView chestList = (ListView)findViewById(R.id.container_list);
@@ -76,6 +107,7 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
             if(resultCode == RESULT_OK){
                 Map returnedMap = (Map) data.getParcelableExtra("resultMap");
                 this.map = returnedMap;
+
                 reloadChestList();
             }
     }

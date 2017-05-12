@@ -11,15 +11,15 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class Chest implements Parcelable {
 
-    private LatLng position;
+    private ModelLatLng position;
     private float radius;   // Radius
     private boolean hidden;
     private boolean opentoEdit;
     //chestID must not be changed
-    private final String chestID;
+    private String chestID;
     private String adventurerID;
 
-    public Chest(LatLng position, String chestID, float radius, boolean hidden, String adventurerID , boolean opentoEdit) {
+    public Chest(ModelLatLng position, String chestID, float radius, boolean hidden, String adventurerID , boolean opentoEdit) {
         this.setPosition(position);
         this.chestID = chestID;
         this.setRadius(radius);
@@ -27,8 +27,9 @@ public class Chest implements Parcelable {
         this.setAdventurerID(adventurerID);
         this.setOpentoEdit(opentoEdit);
     }
+    public Chest(){}
 
-    public LatLng getPosition() {
+    public ModelLatLng getPosition() {
         return position;
     }
 
@@ -36,7 +37,7 @@ public class Chest implements Parcelable {
         return chestID;
     }
 
-    public void setPosition(LatLng position) {
+    public void setPosition(ModelLatLng position) {
         this.position = position;
     }
 

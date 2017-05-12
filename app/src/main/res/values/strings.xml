@@ -42,4 +42,6 @@
     <string name="access_radius">access radius</string>
     <string name="listed">LISTED</string>
     <string name="public_edit">PUBLIC EDIT</string>
+    <string name="invalid_username">INVALIDUSERNAME</string>
+    <string name="setDisplayNameReminder">You need to set your display name to start exploring.</string>
 </resources>
