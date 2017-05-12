@@ -74,6 +74,7 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onButtonClicked(ExplorerButtonType buttonType, Chest chest) {
                 Intent chestActivity = new Intent(ExplorerActivity.this, ChestEditActivity.class);
+                chestActivity.putExtra("selectedChest",chest);
                 startActivity(chestActivity);
                 //TODO different layouts for edit and view and open a real chest
             }

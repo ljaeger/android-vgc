@@ -8,21 +8,25 @@
     android:orientation="vertical"
     >
     <TextView
+        android:id="@+id/chestIDText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="szoveg1.txt"
+        android:hint="@string/chestid"
         />
     <TextView
+        android:id="@+id/radiusText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="szoveg2.txt"
         />
     <TextView
+        android:id="@+id/listedText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="kep1.jpg"
         />
     <TextView
+        android:id="@+id/opentoEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="kep2.jpg"
