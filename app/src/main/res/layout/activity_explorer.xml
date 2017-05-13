@@ -18,7 +18,6 @@
         />
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/adder_button"
-
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:padding="2dp"
