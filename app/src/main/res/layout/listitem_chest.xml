@@ -42,16 +42,5 @@
             android:focusable="false"
             android:paddingRight="10dp" android:background="@drawable/ic_folder_open_black_24dp"
             />
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/editButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_toLeftOf="@id/viewButton"
-            android:paddingEnd="10dp"
-            android:focusable="false"
-            android:paddingRight="10dp" android:background="@drawable/ic_folder_open_black_24dp"
-            />
-
     </RelativeLayout>
 </LinearLayout>

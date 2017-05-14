@@ -2,7 +2,6 @@ package android.nik.virtualgeocaching.activities;
 
 import android.content.Intent;
 import android.nik.virtualgeocaching.model.Chest;
-import android.nik.virtualgeocaching.support.ExplorerButtonType;
 import android.nik.virtualgeocaching.model.Map;
 import android.nik.virtualgeocaching.adapters.MapAdapter;
 import android.nik.virtualgeocaching.R;
@@ -17,7 +16,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -72,11 +70,10 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
 
         mapAdapter.setButtonClickListener(new MapAdapter.ButtonClickListener() {
             @Override
-            public void onButtonClicked(ExplorerButtonType buttonType, Chest chest) {
+            public void onButtonClicked(Chest chest) {
                 Intent chestActivity = new Intent(ExplorerActivity.this, ChestEditActivity.class);
                 chestActivity.putExtra("selectedChest",chest);
                 startActivity(chestActivity);
-                //TODO different layouts for edit and view and open a real chest
             }
         });
         explorerChestList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

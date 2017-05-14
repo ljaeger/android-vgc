@@ -47,4 +47,5 @@ public class FolderAdapter extends BaseAdapter {
 
         return convertView;
     }
+
 }
