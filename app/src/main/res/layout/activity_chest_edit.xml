@@ -23,13 +23,11 @@
         android:id="@+id/listedText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="kep1.jpg"
         />
     <TextView
         android:id="@+id/opentoEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="kep2.jpg"
         />
     <ListView
         android:id="@+id/chestFilesListView"

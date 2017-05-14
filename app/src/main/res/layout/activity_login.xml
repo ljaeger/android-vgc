@@ -19,7 +19,7 @@
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round"
+            android:src="@drawable/ic_account_box_black_48dp"
             android:contentDescription="@string/desc_firebase_lockup"
             android:paddingBottom="5dp"/>
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.nik.virtualgeocaching.R;
+import android.nik.virtualgeocaching.adapters.FolderAdapter;
 import android.nik.virtualgeocaching.model.Chest;
 import android.nik.virtualgeocaching.support.RealPathUtil;
 import android.nik.virtualgeocaching.support.StringUtils;
@@ -12,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +21,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -30,6 +35,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ChestEditActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,6 +51,10 @@ public class ChestEditActivity extends AppCompatActivity implements View.OnClick
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private DatabaseReference dbRef;
+
+    private List<String> urlList;
+    private ListView chestContentList;
+    private FolderAdapter folderAdapter;
 
 
     @Override
@@ -72,6 +84,43 @@ public class ChestEditActivity extends AppCompatActivity implements View.OnClick
             findViewById(R.id.fileUploadButton).setVisibility(View.GONE);
         else
             findViewById(R.id.fileUploadButton).setOnClickListener(this);
+        //Populating listview and fetching folder content
+        urlList = new ArrayList<String>();
+        getFolderContent();
+
+
+    }
+
+    private void getFolderContent() {
+        dbRef.child("download").child(chest.getChestID()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                urlList.clear();
+                for(DataSnapshot urlDataSnapshot: dataSnapshot.getChildren()){
+                    String downloadURL = urlDataSnapshot.getValue().toString();
+                    urlList.add(downloadURL);
+                }
+                ListView folderContentList = (ListView)findViewById(R.id.chestFilesListView);
+                chestContentList = folderContentList;
+                folderAdapter = new FolderAdapter(urlList);
+                chestContentList.setAdapter(folderAdapter);
+                reloadURLList();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void reloadURLList() {
+        folderAdapter.setList(urlList);
+        folderAdapter.notifyDataSetChanged();
+    }
+
+    private void downloadFromStorageURL(String downloadURL) {
+
     }
 
     private void showFileChooser() {
@@ -120,7 +169,6 @@ public class ChestEditActivity extends AppCompatActivity implements View.OnClick
                     else
                         realPath = RealPathUtil.getRealPathFromURI_API19(this, uri);
 
-                    //this.chestIDTextView.setText(StringUtils.getFileName(realPath));
                     UploadFromStream(realPath);
                 }
                 break;

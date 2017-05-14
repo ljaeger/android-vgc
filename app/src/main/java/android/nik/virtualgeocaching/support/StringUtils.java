@@ -18,6 +18,12 @@ public final class StringUtils {
         return file.getName();
     }
 
+    public static String getFileNameFromDownloadURL(String url){
+        int start = url.lastIndexOf("%")+3;
+        int end = url.lastIndexOf("?");
+        return url.substring(start,end);
+    }
+
     public static String cutExtension(String fileName){
         if(fileName != null && fileName.contains("."))
             return fileName.substring(0,fileName.lastIndexOf('.'));

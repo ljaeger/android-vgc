@@ -44,6 +44,7 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
     double longitude;
     double latitude;
     private DatabaseReference mDatabase;
+    private List<String> downloadUrlList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
