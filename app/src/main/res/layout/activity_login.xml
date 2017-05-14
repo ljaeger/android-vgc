@@ -19,7 +19,7 @@
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round"
+            android:src="@drawable/ic_account_box_black_48dp"
             android:contentDescription="@string/desc_firebase_lockup"
             android:paddingBottom="5dp"/>
 
@@ -35,13 +35,14 @@
             android:text="@string/signed_out"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content" />
-
+        <!--
         <TextView
             android:id="@+id/detail"
 
             tools:text="Firebase User ID: 123456789abc"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"/>
+            -->
         <TextView
             android:id="@+id/displayNameText"
             tools:text="DisplayName: - "

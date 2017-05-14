@@ -3,7 +3,6 @@ package android.nik.virtualgeocaching.adapters;
 import android.nik.virtualgeocaching.R;
 import android.nik.virtualgeocaching.model.Chest;
 import android.nik.virtualgeocaching.model.Map;
-import android.nik.virtualgeocaching.support.ExplorerButtonType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -55,24 +54,16 @@ public class MapAdapter extends BaseAdapter {
         TextView chestPositionTextView = (TextView) convertView.findViewById(R.id.chestPosition);
         TextView chestIDTextView = (TextView)convertView.findViewById(R.id.chestID);
 
-        Button editButton = (Button) convertView.findViewById(R.id.editButton);
         Button viewButton = (Button) convertView.findViewById(R.id.viewButton);
 
         chestPositionTextView.setText(chest.getPosition().toString());
         chestIDTextView.setText(chest.getChestID());
 
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(buttonClickListener != null)
-                    buttonClickListener.onButtonClicked(ExplorerButtonType.EDIT,chest);
-            }
-        });
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(buttonClickListener != null)
-                    buttonClickListener.onButtonClicked(ExplorerButtonType.VIEW,chest);
+                    buttonClickListener.onButtonClicked(chest);
             }
         });
 
@@ -84,7 +75,7 @@ public class MapAdapter extends BaseAdapter {
     }
 
     public interface ButtonClickListener{
-        void onButtonClicked(ExplorerButtonType buttonType, Chest chest);
+        void onButtonClicked(Chest chest);
     }
 
 }

@@ -44,6 +44,7 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
     double longitude;
     double latitude;
     private DatabaseReference mDatabase;
+    private List<String> downloadUrlList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,8 +121,13 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
                             //"tesztadventurerID",
                             userName,
                             publicEditSwitch.isChecked());
+                    //chest hozzadasa a terkephez
                     map.addChest(newChest);
-                    mDatabase.child("chests").child(newChest.getChestID()).setValue(newChest);
+                    String newChestID= newChest.getChestID();
+                    //chest object adatbazisba helyezese
+                    mDatabase.child("chests").child(newChestID).setValue(newChest);
+                    //chest lokacio mentese kulon faba
+                    mDatabase.child("chestlocation").child(newChestID).setValue(newChest.getPosition());
 
                     Intent resultIntent = this.getIntent();
                     resultIntent.putExtra("resultMap", map);

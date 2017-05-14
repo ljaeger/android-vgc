@@ -18,11 +18,10 @@
         />
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/adder_button"
-
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:padding="2dp"
-        android:background="@mipmap/ic_launcher_round"
+        android:background="@drawable/ic_add_circle_black_24dp"
         android:focusable="false"
         android:layout_weight="0"/>
 </LinearLayout>

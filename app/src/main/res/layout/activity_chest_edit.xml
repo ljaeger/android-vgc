@@ -8,23 +8,44 @@
     android:orientation="vertical"
     >
     <TextView
+        android:id="@+id/chestIDText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="szoveg1.txt"
+        android:hint="@string/chestid"
         />
     <TextView
+        android:id="@+id/radiusText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="szoveg2.txt"
         />
     <TextView
+        android:id="@+id/listedText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="kep1.jpg"
         />
     <TextView
+        android:id="@+id/opentoEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="kep2.jpg"
+        />
+    <ListView
+        android:id="@+id/chestFilesListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:padding="2dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        />
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/fileUploadButton"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:background="@drawable/ic_add_circle_black_24dp"
+        android:focusable="false"
+        android:layout_weight="0"
+        android:layout_gravity="right"
         />
 </LinearLayout>

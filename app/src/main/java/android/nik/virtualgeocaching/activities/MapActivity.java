@@ -1,6 +1,11 @@
 package android.nik.virtualgeocaching.activities;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.nik.virtualgeocaching.model.Chest;
 import android.nik.virtualgeocaching.R;
 import android.support.v4.app.ActivityCompat;
@@ -32,6 +37,26 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        LocationManager locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            return;
+        }
+        Location location = locationManager.getLastKnownLocation(locationManager
+                .getBestProvider(criteria, false));
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
     }
 
 
@@ -47,6 +72,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
 
         LatLng chestlatlong = new LatLng(chest.getPosition().getLatitude(),chest.getPosition().getLongitude());
         mMap.addMarker(new MarkerOptions().position(chestlatlong).title(chest.getChestID()).snippet(chest.getAdventurerID()).draggable(false));
@@ -68,6 +94,5 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mMap.setMyLocationEnabled(true);
     }
 }

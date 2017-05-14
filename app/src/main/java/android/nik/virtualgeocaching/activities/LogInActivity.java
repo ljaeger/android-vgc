@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.nik.virtualgeocaching.R;
+import android.nik.virtualgeocaching.model.Adventurer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,12 +24,18 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "LogInActivity";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mDatabase;
 
     private TextView mStatusTextView;
     private TextView mDetailTextView;
@@ -47,7 +54,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         //VIEWS
         mStatusTextView = (TextView) findViewById(R.id.status);
-        mDetailTextView = (TextView) findViewById(R.id.detail);
+        //mDetailTextView = (TextView) findViewById(R.id.detail);
         mEmailField = (EditText) findViewById(R.id.field_email);
         mPasswordField = (EditText) findViewById(R.id.field_password);
         displayNameText = (TextView) findViewById(R.id.displayNameText);
@@ -83,7 +90,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         if (user != null) {
             mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
                     user.getEmail(), user.isEmailVerified()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+            //mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
             findViewById(R.id.email_password_buttons).setVisibility(View.GONE);
             findViewById(R.id.email_password_fields).setVisibility(View.GONE);
@@ -100,7 +107,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             }
          else {
             mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
+            //mDetailTextView.setText(null);
 
             findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
@@ -213,6 +220,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             Toast.makeText(LogInActivity.this,
                                     "Verification email sent to " + user.getEmail(),
                                     Toast.LENGTH_SHORT).show();
+
                         } else {
                             Log.e(TAG, "sendEmailVerification", task.getException());
                             Toast.makeText(LogInActivity.this,
@@ -274,6 +282,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private void setDisplayName() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Title");
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // Set up the input
         final EditText input = new EditText(this);
@@ -287,24 +296,45 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             public void onClick(DialogInterface dialog, int which) {
                 displayName = input.getText().toString();
                 //FIREBASE PART
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                mDatabase.child("users").child(displayName).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Displayname already exists
+                        if(dataSnapshot.exists())
+                            Toast.makeText(LogInActivity.this,"Display name is already taken, please enter a unique display name.",
+                                    Toast.LENGTH_SHORT).show();
+                        //Displayname is unique
+                        else{
+                            Adventurer adventurer = new Adventurer(displayName, user.getUid());
+                            mDatabase.child("users").child(displayName).setValue(adventurer);
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(displayName)
+                                    .build();
 
-                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(displayName)
-                        .build();
-
-                user.updateProfile(profileUpdates)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    displayNameText.setText(displayName);
-                                    Log.d(TAG, "User profile updated.");
-                                    Toast.makeText(LogInActivity.this, getString(R.string.displayNameSetTo)+ displayName,
-                                            Toast.LENGTH_SHORT).show();
-                                }
+                            mAuth.getCurrentUser().updateProfile(profileUpdates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                displayNameText.setText(displayName);
+                                                Log.d(TAG, "User profile updated.");
+                                                Toast.makeText(LogInActivity.this, getString(R.string.displayNameSetTo)+ displayName,
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                             }
-                        });
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(LogInActivity.this,"Service is unavaible, please try again later.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
                         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
