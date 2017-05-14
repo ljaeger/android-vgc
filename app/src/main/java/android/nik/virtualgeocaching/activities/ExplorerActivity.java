@@ -80,9 +80,10 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Chest chest = map.getChestList().get(position);
-                Intent map = new Intent(ExplorerActivity.this, MapActivity.class);
-                map.putExtra("selectedChest",chest);
-                startActivity(map);
+                Intent mapa = new Intent(ExplorerActivity.this, MapActivity.class);
+                mapa.putExtra("selectedChest",chest);
+                mapa.putExtra("globalMap",map);
+                startActivity(mapa);
             }
         });
     }
