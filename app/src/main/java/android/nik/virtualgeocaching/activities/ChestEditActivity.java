@@ -13,6 +13,7 @@ import android.nik.virtualgeocaching.support.RealPathUtil;
 import android.nik.virtualgeocaching.support.StringUtils;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -318,7 +319,18 @@ public class ChestEditActivity extends AppCompatActivity implements View.OnClick
 
                 // download the file
                 input = connection.getInputStream();
-                output = new FileOutputStream(new File(context.getFilesDir(),StringUtils.getFileNameFromDownloadURL(url.toString())));
+               //String dir1 = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+                String subDir = "/vgc/download";
+                File dir = new File(Environment.getExternalStorageDirectory() + subDir);
+                if(dir.exists() == false){
+                    dir.mkdirs();
+                }
+                File downloadFile = new File(Environment.getExternalStorageDirectory() + subDir,StringUtils.getFileNameFromDownloadURL(url.toString()));
+                output = new FileOutputStream(downloadFile);
+                //output = new FileOutputStream(new File(Environment.getExternalStorageDirectory(),StringUtils.getFileNameFromDownloadURL(url.toString())));
+
+
 
                 byte data[] = new byte[4096];
                 long total = 0;
@@ -378,8 +390,9 @@ public class ChestEditActivity extends AppCompatActivity implements View.OnClick
             mProgressDialog.dismiss();
             if (result != null)
                 Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+            else {
+                Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
