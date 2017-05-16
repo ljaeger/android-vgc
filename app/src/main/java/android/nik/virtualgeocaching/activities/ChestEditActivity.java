@@ -15,10 +15,12 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.os.PowerManager;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -74,6 +76,8 @@ public class ChestEditActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         setContentView(R.layout.activity_chest_edit);
         Chest selectedChest = (Chest) getIntent().getParcelableExtra("selectedChest");
         this.chest = selectedChest;
@@ -291,6 +295,8 @@ public class ChestEditActivity extends AppCompatActivity implements View.OnClick
 
         private Context context;
         private PowerManager.WakeLock mWakeLock;
+        private String downloadPath;
+        private String downloadFileName;
 
         public DownloadTask(Context context) {
             this.context = context;
@@ -319,18 +325,16 @@ public class ChestEditActivity extends AppCompatActivity implements View.OnClick
 
                 // download the file
                 input = connection.getInputStream();
-               //String dir1 = Environment.getExternalStorageDirectory().getAbsolutePath();
 
                 String subDir = "/vgc/download";
-                File dir = new File(Environment.getExternalStorageDirectory() + subDir);
+                this.downloadPath = Environment.getExternalStorageDirectory() + subDir;
+                File dir = new File(downloadPath);
                 if(dir.exists() == false){
                     dir.mkdirs();
                 }
-                File downloadFile = new File(Environment.getExternalStorageDirectory() + subDir,StringUtils.getFileNameFromDownloadURL(url.toString()));
+                this.downloadFileName = StringUtils.getFileNameFromDownloadURL(url.toString());
+                File downloadFile = new File(downloadPath, downloadFileName);
                 output = new FileOutputStream(downloadFile);
-                //output = new FileOutputStream(new File(Environment.getExternalStorageDirectory(),StringUtils.getFileNameFromDownloadURL(url.toString())));
-
-
 
                 byte data[] = new byte[4096];
                 long total = 0;
@@ -392,6 +396,21 @@ public class ChestEditActivity extends AppCompatActivity implements View.OnClick
                 Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
             else {
                 Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show();
+
+                File file = new File(downloadPath+'/'+downloadFileName);
+                MimeTypeMap map = MimeTypeMap.getSingleton();
+                String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+                String type = map.getMimeTypeFromExtension(ext);
+
+                if (type == null)
+                    type = "*/*";
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri data = Uri.fromFile(file);
+
+                intent.setDataAndType(data, type);
+
+                startActivity(intent);
             }
         }
     }
