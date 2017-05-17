@@ -32,30 +32,30 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
-public class CreateChestActivity extends AppCompatActivity implements View.OnClickListener, LocationListener {
+public class CreateChestActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText chestIDField;
     private EditText radiusField;
     private SwitchCompat publicViewSwitch;
     private SwitchCompat publicEditSwitch;
     private Map map;
-    LocationManager locationManager;
-    String provider;
-    double longitude;
-    double latitude;
     private DatabaseReference mDatabase;
     private List<String> downloadUrlList;
+
+    double longitude;
+    double latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Map explorerMap = (Map) getIntent().getParcelableExtra("map");
+        this.latitude = getIntent().getDoubleExtra("explorerLatitude",0);
+        this.longitude = getIntent().getDoubleExtra("explorerLongitude",0);
         this.map = explorerMap;
         setContentView(R.layout.activity_create_chest);
         //FIREBASE DATABASE
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        //mDatabase.child("teszt").setValue("tesztlevel");
         //VIEWS
         chestIDField = (EditText) findViewById(R.id.chestIDText);
         radiusField = (EditText) findViewById(R.id.radiusText);
@@ -84,24 +84,7 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
         //BUTTONS
         findViewById(R.id.createChestButton).setOnClickListener(this);
 
-        //GPS
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},200);
-        }
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
 
-        if (provider != null && !provider.equalsIgnoreCase("")) {
-
-            Location location = locationManager.getLastKnownLocation(provider);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 15000,1,this);
-
-            if(location != null)
-                onLocationChanged(location);
-            else
-                Toast.makeText(CreateChestActivity.this, "No location provider found.", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -178,24 +161,4 @@ public class CreateChestActivity extends AppCompatActivity implements View.OnCli
         return new LatLng(latitude,longitude);
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        longitude = location.getLongitude();
-        latitude = location.getLatitude();
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
 }
