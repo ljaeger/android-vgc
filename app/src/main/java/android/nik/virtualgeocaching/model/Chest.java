@@ -13,6 +13,7 @@ public class Chest implements Parcelable {
 
     private ModelLatLng position;
     private float radius;   // Radius
+    //hidden has reverse true false meaning, could be listed
     private boolean hidden;
     private boolean opentoEdit;
     //chestID must not be changed

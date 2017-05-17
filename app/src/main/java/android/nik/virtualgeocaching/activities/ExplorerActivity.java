@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,9 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
             fChestList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     Chest chest  = postSnapshot.getValue(Chest.class);
-                    fChestList.add(chest);
+                    //isHidden has reverse true false meaning
+                    if(chest.isHidden() == true || (chest.isHidden() == false && isInRange(chest)) )
+                        fChestList.add(chest);
                 }
                 map.setChestList(fChestList);
                 reloadChestList();
@@ -127,6 +130,32 @@ public class ExplorerActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(mapa);
             }
         });
+    }
+
+    private boolean isInRange(Chest chest) {
+        float radius = chest.getRadius();
+        double radiusd = radius;
+        double chestLat = chest.getPosition().getLatitude();
+        double chestLong = chest.getPosition().getLongitude();
+
+        float earthRadiusKm = 6371;
+
+        double dLat = (chestLat-latitude)*Math.PI/180;
+        double dLon = (chestLong-longitude)*Math.PI/180;
+
+        double lat1 = latitude*Math.PI/180;
+        double lat2 = chestLat*Math.PI/180;
+
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double distance = earthRadiusKm * c * 1000;
+
+
+        if  (distance <= radiusd)
+            return true;
+        else
+            return false;
     }
 
     @Override
